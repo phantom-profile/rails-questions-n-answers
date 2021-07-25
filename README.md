@@ -1,13 +1,10 @@
-# README
+# Q&A project
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby on Rails study project, which is written with TDD and BDD patterns
 
 Things you may want to cover:
 
-* Ruby version
-
-* System dependencies
+* Ruby version - 3.0.0
 
 * Configuration
 
