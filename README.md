@@ -2,20 +2,38 @@
 
 Ruby on Rails study project, which is written with TDD and BDD patterns
 
-Things you may want to cover:
 
 * Ruby version - 3.0.0
 
-* Configuration
+-----
 
-* Database creation
+_Поскольку это учебный проект, 
+где важной задачей является работа с историями, 
+буду описывать попунктно решение для каждой истории_
+-----
 
-* Database initialization
+### Урок 2
 
-* How to run the test suite
+1) Пользователь может создавать вопрос 
+   
+    * Таблица вопросов в БД (уже сделана) 
+      
+    * Модель вопроса (уже сделана)
+    
+    * Пути для методов Post и Get (уже сделаны)
 
-* Services (job queues, cache servers, search engines, etc.)
+    * Контроллер с экшенами New Create Show (уже сделан)
 
-* Deployment instructions
+    * Вьюхи для экшенов
+    
+2) Пользователь может создавать ответ на вопрос
 
-* ...
+    * Таблица ответов в БД
+  
+    * Модель ответа
+
+    * Пути для методов Post и Get
+
+    * Контроллер с экшенами New Create Show
+
+    * Вьюхи для экшенов
