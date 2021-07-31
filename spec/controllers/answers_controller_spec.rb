@@ -19,26 +19,27 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     let(:question) { create(:question) }
+    let(:create_answer) { post :create, params: { question_id: question, answer: answer_params } }
     context 'with valid attrs' do
+      let(:answer_params) { attributes_for(:answer) }
       it 'saves new Answer in DB' do
-        expect do
-          post :create,
-               params: { question_id: question, answer: attributes_for(:answer) }
-        end.to change(Answer, :count).by(1)
+        expect { create_answer }.to change(question.answers, :count).by(1)
       end
+
       it 'redirects to show' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer) }
+        create_answer
         expect(response).to redirect_to assigns(:answer)
       end
     end
+
     context 'with invalid attrs' do
+      let(:answer_params) { attributes_for(:answer, :invalid) }
       it 'does not save new Answer in DB' do
-        expect do
-          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        end.to_not change(Answer, :count)
+        expect { create_answer }.to_not change(question.answers, :count)
       end
+
       it 're-renders new' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
+        create_answer
         expect(response).to render_template :new
       end
     end
