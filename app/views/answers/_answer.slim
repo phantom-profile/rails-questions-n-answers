@@ -1,0 +1,8 @@
+p
+  = answer.body
+
+- if current_user == answer.user
+  = link_to 'Delete answer',
+          answer_path(answer),
+          method: :delete,
+          data: {confirm: 'Are you sure?'}

@@ -8,7 +8,7 @@ feature 'User can look at question list', "
   scenario 'check root page with questions' do
     visit root_path
 
-    expect(page).to have_content 'Title 1'
-    expect(page).to have_content 'Title 5'
+    expect(page).to have_content questions[0].title
+    expect(page).to have_content questions[4].title
   end
 end
