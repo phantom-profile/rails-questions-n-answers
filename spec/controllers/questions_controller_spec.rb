@@ -6,6 +6,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 5) }
+
     before { get :index }
 
     it 'gets all questions from DB' do
@@ -51,20 +52,20 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with valid attrs' do
       it 'saves new Question in DB' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
-			end
+      end
 
       it 'redirects to show' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
       end
-		end
+    end
 
     context 'with invalid attrs' do
       it 'does not save new Question in DB' do
         expect do
           post :create, params: { question: attributes_for(:question, :invalid) }
-        end.to_not change(Question, :count)
-			end
+        end.not_to change(Question, :count)
+      end
 
       it 're-renders new' do
         post :create, params: { question: attributes_for(:question, :invalid) }
@@ -80,7 +81,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'gets one exact question from DB' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
-			end
+      end
 
       it 'saves changed Question in DB' do
         patch :update, params: { id: question, question: { title: 'changing title', body: 'changing body' } }
@@ -88,20 +89,20 @@ RSpec.describe QuestionsController, type: :controller do
 
         expect(question.title).to eq 'changing title'
         expect(question.body).to eq 'changing body'
-			end
+      end
 
       it 'redirects to show' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(response).to redirect_to :question
-			end
-		end
+      end
+    end
 
     context 'with invalid attrs' do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
       it 'gets one exact question from DB' do
         expect(assigns(:question)).to eq question
-			end
+      end
 
       it 'does not save changed Question in DB' do
         title = question.title
@@ -110,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         expect(question.title).to eq title
         expect(question.body).to eq body
-			end
+      end
 
       it 're-render edit' do
         expect(response).to render_template :edit
@@ -120,11 +121,12 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
+
     let!(:question) { user.questions.create(title: 'title', body: 'body') }
 
     it 'deletes exact Question from DB' do
       expect { delete :destroy, params: { id: question } }.to change(user.questions, :count).by(-1)
-		end
+    end
 
     it 'redirects to index' do
       delete :destroy, params: { id: question }
