@@ -24,6 +24,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'renders show view' do
       expect(response).to render_template :show
     end
+
+    it 'is exact question from DB' do
+      expect(assigns(:question)).to match question
+    end
   end
 
   describe 'GET #new' do
@@ -47,82 +51,111 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { login(user) }
-
     let(:create_question) { post :create, params: question_params }
 
-    context 'with valid attrs' do
-      let(:question_params) { { question: attributes_for(:question) } }
+    describe 'Auth user' do
+      before { login(user) }
 
-      it 'saves new Question in DB' do
-        expect { create_question }.to change(Question, :count).by(1)
+      context 'with valid attrs' do
+        let(:question_params) { { question: attributes_for(:question) } }
+
+        it 'saves new Question in DB' do
+          expect { create_question }.to change(user.questions, :count).by(1)
+        end
+
+        it 'redirects to show' do
+          create_question
+          expect(response).to redirect_to assigns(:question)
+        end
       end
 
-      it 'redirects to show' do
-        create_question
-        expect(response).to redirect_to assigns(:question)
+      context 'with invalid attrs' do
+        let(:question_params) { { question: attributes_for(:question, :invalid) } }
+
+        it 'does not save new Question in DB' do
+          expect { create_question }.not_to change(user.questions, :count)
+        end
+
+        it 're-renders new' do
+          create_question
+          expect(response).to render_template :new
+        end
       end
     end
 
-    context 'with invalid attrs' do
-      let(:question_params) { { question: attributes_for(:question, :invalid) } }
+    describe 'Not auth user' do
+      let(:question_params) { { question: attributes_for(:question) } }
 
-      it 'does not save new Question in DB' do
+      it 'does not allow to post question' do
         expect { create_question }.not_to change(Question, :count)
-      end
-
-      it 're-renders new' do
-        create_question
-        expect(response).to render_template :new
       end
     end
   end
 
   describe 'PATCH #update' do
-    before { login(user) }
-
     let(:patch_question) { patch :update, params: question_params }
 
-    context 'with valid attrs' do
-      let(:question_params) { { id: question, question: { title: 'changing title', body: 'changing body' } } }
+    describe 'Auth user' do
+      before { login(user) }
 
-      it 'gets one exact question from DB' do
-        patch_question
-        expect(assigns(:question)).to eq question
+      context 'with valid attrs' do
+        let(:question_params) { { id: question, question: { title: 'changing title', body: 'changing body' } } }
+
+        it 'gets one exact question from DB' do
+          patch_question
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'saves changed Question in DB' do
+          patch_question
+          question.reload
+
+          expect(question.title).to eq 'changing title'
+          expect(question.body).to eq 'changing body'
+        end
+
+        it 'redirects to show' do
+          patch_question
+          expect(response).to redirect_to :question
+        end
       end
 
-      it 'saves changed Question in DB' do
-        patch_question
-        question.reload
+      context 'with invalid attrs' do
+        let(:question_params) { { id: question, question: attributes_for(:question, :invalid) } }
 
-        expect(question.title).to eq 'changing title'
-        expect(question.body).to eq 'changing body'
-      end
+        before { patch_question }
 
-      it 'redirects to show' do
-        patch_question
-        expect(response).to redirect_to :question
+        it 'gets one exact question from DB' do
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'does not save changed Question in DB' do
+          title = question.title
+          body = question.body
+          question.reload
+
+          expect(question.title).to eq title
+          expect(question.body).to eq body
+        end
+
+        it 're-render edit' do
+          expect(response).to render_template :edit
+        end
       end
     end
 
-    context 'with invalid attrs' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+    describe 'Not auth user' do
+      let(:question_params) { { id: question, question: { title: 'changing title', body: 'changing body' } } }
 
-      it 'gets one exact question from DB' do
-        expect(assigns(:question)).to eq question
-      end
+      before { patch_question }
 
-      it 'does not save changed Question in DB' do
+      it 'does not allow to patch question' do
         title = question.title
         body = question.body
         question.reload
 
         expect(question.title).to eq title
         expect(question.body).to eq body
-      end
-
-      it 're-render edit' do
-        expect(response).to render_template :edit
       end
     end
   end
