@@ -22,13 +22,19 @@ feature 'User can answer question', "
 
       expect(page).to have_content 'Answer created successfully'
       expect(page).to have_content 'test answer'
-      expect(question.answers.count).to eq 1
     end
 
     scenario 'answer with invalid data' do
       click_on 'Answer now'
 
-      expect(question.answers.count).to eq 0
+      expect(page).to have_content "Body can't be blank"
     end
+  end
+
+  scenario 'not auth user tries to answer' do
+    visit question_path(question)
+    click_on 'Answer now'
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing'
   end
 end
