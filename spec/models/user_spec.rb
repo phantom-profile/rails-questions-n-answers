@@ -14,6 +14,7 @@ RSpec.describe User, type: :model do
 
       it { expect(user.author_of(answer)).to eq true }
       it { expect(user.author_of(question)).to eq true }
+    end
 
     context 'when user is not author of question and answer' do
       let(:answer) { create(:answer) }
