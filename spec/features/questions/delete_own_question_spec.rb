@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Only user can delete his question', "
   In order to remove question by myself
   As a auth user
@@ -20,6 +22,7 @@ feature 'Only user can delete his question', "
       click_on 'Delete'
 
       expect(page).to have_content 'question deleted successfully'
+      expect(page).not_to have_content 'body 1'
     end
 
     scenario 'tries to delete not his answer' do
@@ -27,7 +30,7 @@ feature 'Only user can delete his question', "
       visit question_path(question)
 
       expect(page).to have_content 'body 2'
-      expect(page).to_not have_content 'Delete'
+      expect(page).not_to have_content 'Delete'
     end
   end
 end

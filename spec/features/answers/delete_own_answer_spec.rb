@@ -12,7 +12,7 @@ feature 'Only user can delete his answer', "
   describe 'Auth user' do
     background do
       sign_in user_one
-		end
+    end
 
     scenario 'tries to delete his own answer' do
       user_one.answers.create(body: 'answer body 1', question: question)
@@ -24,14 +24,15 @@ feature 'Only user can delete his answer', "
       click_on 'Delete answer'
 
       expect(page).to have_content 'answer deleted successfully'
-		end
+      expect(page).not_to have_content 'answer body 1'
+    end
 
     scenario 'tries to delete not his answer' do
       user_two.answers.create(body: 'answer body 2', question: question)
       visit question_path(question)
 
       expect(page).to have_content 'answer body 2'
-      expect(page).to_not have_content 'Delete answer'
+      expect(page).not_to have_content 'Delete answer'
     end
   end
 end

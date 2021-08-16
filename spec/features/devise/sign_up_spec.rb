@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'User can sign in', "
   In order to ask question
   As an unauth user
