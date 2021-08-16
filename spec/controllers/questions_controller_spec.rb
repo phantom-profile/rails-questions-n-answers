@@ -49,26 +49,30 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     before { login(user) }
 
+    let(:create_question) { post :create, params: question_params }
+
     context 'with valid attrs' do
+      let(:question_params) { { question: attributes_for(:question) } }
+
       it 'saves new Question in DB' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { create_question }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show' do
-        post :create, params: { question: attributes_for(:question) }
+        create_question
         expect(response).to redirect_to assigns(:question)
       end
     end
 
     context 'with invalid attrs' do
+      let(:question_params) { { question: attributes_for(:question, :invalid) } }
+
       it 'does not save new Question in DB' do
-        expect do
-          post :create, params: { question: attributes_for(:question, :invalid) }
-        end.not_to change(Question, :count)
+        expect { create_question }.not_to change(Question, :count)
       end
 
       it 're-renders new' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
+        create_question
         expect(response).to render_template :new
       end
     end
@@ -77,14 +81,18 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     before { login(user) }
 
+    let(:patch_question) { patch :update, params: question_params }
+
     context 'with valid attrs' do
+      let(:question_params) { { id: question, question: { title: 'changing title', body: 'changing body' } } }
+
       it 'gets one exact question from DB' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch_question
         expect(assigns(:question)).to eq question
       end
 
       it 'saves changed Question in DB' do
-        patch :update, params: { id: question, question: { title: 'changing title', body: 'changing body' } }
+        patch_question
         question.reload
 
         expect(question.title).to eq 'changing title'
@@ -92,7 +100,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to show' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch_question
         expect(response).to redirect_to :question
       end
     end
