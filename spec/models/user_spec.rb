@@ -9,19 +9,15 @@ RSpec.describe User, type: :model do
 
   describe 'author_of which checks if user author of resource' do
     context 'when user is author of question and answer' do
-      let(:answer) { user.answers.create(attributes_for(:answer)) }
       let(:question) { user.questions.create(attributes_for(:question)) }
 
-      it { expect(user.author_of(answer)).to eq true }
-      it { expect(user.author_of(question)).to eq true }
+      it { expect(user).to be_author_of(question) }
     end
 
     context 'when user is not author of question and answer' do
-      let(:answer) { create(:answer) }
       let(:question) { create(:question) }
 
-      it { expect(user.author_of(answer)).to eq false }
-      it { expect(user.author_of(question)).to eq false }
+      it { expect(user).not_to be_author_of(question) }
     end
   end
 end
