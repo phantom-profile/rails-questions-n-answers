@@ -25,15 +25,18 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :show
     end
 
+    # для show нет тестов на проверку возвращаемых данных экшеном
+    # исправлено
     it 'is exact question from DB' do
       expect(assigns(:question)).to match question
     end
   end
 
   describe 'GET #new' do
-    before { login(user) }
-
-    before { get :new }
+    before do
+      login(user)
+      get :new
+    end
 
     it 'renders new view' do
       expect(response).to render_template :new
@@ -41,9 +44,10 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { login(user) }
-
-    before { get :edit, params: { id: question } }
+    before do
+      login(user)
+      get :edit, params: { id: question }
+    end
 
     it 'renders edit view' do
       expect(response).to render_template :edit
@@ -51,6 +55,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    # можно силно улучшить читаемость кода объявив запрос в let сразу после describe
+    # сделано
     let(:create_question) { post :create, params: question_params }
 
     describe 'Auth user' do
@@ -59,6 +65,8 @@ RSpec.describe QuestionsController, type: :controller do
       context 'with valid attrs' do
         let(:question_params) { { question: attributes_for(:question) } }
 
+        # тут можно сразу проверить авторство вопроса. (user.questions, :count)
+        # исправлено
         it 'saves new Question in DB' do
           expect { create_question }.to change(user.questions, :count).by(1)
         end
@@ -83,6 +91,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
+    # не хватает сценарий дла неаутентифицированного юзера
+    # исправлено
     describe 'Not auth user' do
       let(:question_params) { { question: attributes_for(:question) } }
 
@@ -93,6 +103,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    # можно силно улучшить читаемость кода объявив запрос в let сразу после describe
+    # сделано
     let(:patch_question) { patch :update, params: question_params }
 
     describe 'Auth user' do

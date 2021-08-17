@@ -8,6 +8,9 @@ feature 'User can look at question list', "
   given!(:questions) { create_list(:question, 5) }
   given(:user) { create(:user) }
 
+  # root page это технический термин.
+  # Описывай сценарий происходящего. Что какой-то юзер может просматривать список вопросов.
+  # исправлено
   scenario 'Unauth user sees full list of questions' do
     visit questions_path
 
@@ -15,6 +18,8 @@ feature 'User can look at question list', "
     expect(page).to have_content questions[4].title
   end
 
+  # Надо убедиться что аутентифицированный пользователь тоже может видеть вопросы
+  # исправлено
   scenario 'Auth user sees full list of questions' do
     sign_in user
     visit questions_path

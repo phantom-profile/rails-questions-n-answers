@@ -5,6 +5,8 @@ FactoryBot.define do
     "user#{i}@test.com"
   end
 
+  # разделй блоки пустми строками
+  # исправлено
   factory :user do
     email
     password { '123456789' }

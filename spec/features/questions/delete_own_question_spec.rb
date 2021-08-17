@@ -21,6 +21,9 @@ feature 'Only user can delete his question', "
 
       click_on 'Delete'
 
+      # хорошо, флеш работает. А теперь проверь, что на странице исчез текст удалённого ресурса
+      # тоже самое в вопросах
+      # исправлено
       expect(page).to have_content 'question deleted successfully'
       expect(page).not_to have_content 'body 1'
     end
