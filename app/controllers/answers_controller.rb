@@ -1,33 +1,31 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :question
-  def show; end
-
-  def new; end
+  before_action :authenticate_user!
 
   def create
-    @answer = question.answers.build(answer_params)
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.build(answer_params.merge({ user_id: current_user.id }))
     if @answer.save
-      redirect_to answer_path(@answer)
+      redirect_to question_path(@answer.question), notice: 'Answer created successfully'
     else
-      render :new
+      redirect_to question_path(@answer.question)
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      redirect_to @answer.question, notice: 'answer deleted successfully'
+    else
+      redirect_to @answer.question, alert: 'It is not your answer'
     end
   end
 
   private
 
-  def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : Answer.new
-  end
-
-  helper_method :answer, :question
-
   def answer_params
     params.require(:answer).permit(:body)
-  end
-
-  def question
-    @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question
   end
 end

@@ -1,0 +1,4 @@
+require: rubocop-rspec
+
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
