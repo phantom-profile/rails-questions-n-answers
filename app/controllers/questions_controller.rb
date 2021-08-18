@@ -9,7 +9,6 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
-    @errors = params[:errors]
   end
 
   def new
