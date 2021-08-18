@@ -12,7 +12,7 @@ RSpec.describe AnswersController, type: :controller do
     # сделано
     let(:create_answer) { post :create, params: { question_id: question, answer: answer_params } }
 
-    describe 'Auth user' do
+    context 'Auth user' do
       before { login(user) }
 
       context 'with valid attrs' do
@@ -39,7 +39,7 @@ RSpec.describe AnswersController, type: :controller do
 
     # не хватает сценарий дла неаутентифицированного юзера
     # исправлено
-    describe 'Not auth user' do
+    context 'Not auth user' do
       let(:answer_params) { attributes_for(:answer) }
 
       it 'does not allow to post answer' do
