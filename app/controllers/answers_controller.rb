@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.build(answer_params.merge({ user_id: current_user.id }))
     if @answer.save
       redirect_to question_path(@answer.question), notice: 'Answer created successfully'
     else
@@ -26,8 +26,6 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    my_params = params.require(:answer).permit(:body)
-    my_params[:user_id] = current_user.id
-    my_params
+    params.require(:answer).permit(:body)
   end
 end

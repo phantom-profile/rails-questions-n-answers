@@ -1,6 +1,6 @@
 = form_with model: [@question, @answer], local: true do |form|
   = render 'shared/form_errors', resource: @answer
-  
+
   p
     = form.label :body
     = form.text_area :body
