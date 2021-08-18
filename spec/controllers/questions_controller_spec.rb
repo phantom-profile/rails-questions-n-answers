@@ -59,7 +59,7 @@ RSpec.describe QuestionsController, type: :controller do
     # сделано
     let(:create_question) { post :create, params: question_params }
 
-    context 'Auth user' do
+    context 'auth user' do
       before { login(user) }
 
       context 'with valid attrs' do
@@ -93,7 +93,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     # не хватает сценарий дла неаутентифицированного юзера
     # исправлено
-    context 'Not auth user' do
+    context 'not auth user' do
       let(:question_params) { { question: attributes_for(:question) } }
 
       it 'does not allow to post question' do
@@ -107,7 +107,7 @@ RSpec.describe QuestionsController, type: :controller do
     # сделано
     let(:patch_question) { patch :update, params: question_params }
 
-    context 'Auth user' do
+    context 'auth user' do
       before { login(user) }
 
       context 'with valid attrs' do
@@ -156,7 +156,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'Not auth user' do
+    context 'not auth user' do
       let(:question_params) { { id: question, question: { title: 'changing title', body: 'changing body' } } }
 
       before { patch_question }

@@ -8,7 +8,7 @@ feature 'Only user can delete his question', "
   given(:user_one) { create(:user) }
   given(:user_two) { create(:user) }
 
-  describe 'Auth user' do
+  describe 'auth user' do
     background do
       sign_in user_one
     end

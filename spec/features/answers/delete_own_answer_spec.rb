@@ -9,7 +9,7 @@ feature 'Only user can delete his answer', "
   given(:user_two) { create(:user) }
   given(:question) { user_one.questions.create(title: 'title 1', body: 'body 1') }
 
-  describe 'Auth user' do
+  describe 'auth user' do
     background do
       sign_in user_one
     end

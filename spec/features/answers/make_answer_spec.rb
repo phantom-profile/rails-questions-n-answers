@@ -8,7 +8,7 @@ feature 'User can answer question', "
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Auth user' do
+  describe 'auth user' do
     background do
       sign_in user
 
