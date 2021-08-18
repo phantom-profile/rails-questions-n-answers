@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
-# используй rubocop-rspec
-# проверено. Рубокоп ругается только на высокую вложенность но тут из-за проверок
-# для залогиненного и нет пользователя так происходит
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
 
   describe 'POST #create' do
-    # можно силно улучшить читаемость кода объявив запрос в let сразу после describe
-    # сделано
     let(:create_answer) { post :create, params: { question_id: question, answer: answer_params } }
 
     context 'auth user' do
@@ -37,8 +32,6 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    # не хватает сценарий дла неаутентифицированного юзера
-    # исправлено
     context 'not auth user' do
       let(:answer_params) { attributes_for(:answer) }
 

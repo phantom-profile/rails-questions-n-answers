@@ -20,8 +20,6 @@ feature 'User can answer question', "
 
       click_on 'Answer now'
 
-      # это ты уже проверил в тестах контроллера. Тут мы тестируем ситуацию на странице
-      # убрал доп проверку
       expect(page).to have_content 'Answer created successfully'
       expect(page).to have_content 'test answer'
     end
@@ -29,16 +27,11 @@ feature 'User can answer question', "
     scenario 'answer with invalid data' do
       click_on 'Answer now'
 
-      # надо убедиться, что текст вопроса не появился на странице.
-      # Можно проверить текст ошибки валидации
-      # исправлено
       expect(page).not_to have_content 'Delete answer'
       expect(page).to have_content "Body can't be blank"
     end
   end
 
-  # не хватает сценарий дла неаутентифицированного юзера
-  # исправлено
   scenario 'not auth user tries to answer' do
     visit question_path(question)
     click_on 'Answer now'

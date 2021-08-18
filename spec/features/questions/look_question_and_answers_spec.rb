@@ -9,8 +9,6 @@ feature 'User can look at question and answers', "
   given(:question) { create(:question) }
   given!(:answer) { question.answers.create(body: 'test answer', user: user) }
 
-  # не хватает сценарий дла неаутентифицированного юзера
-  # исправлено
   scenario 'not auth user checks show page with question and answer' do
     visit question_path(question)
 

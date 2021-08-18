@@ -23,9 +23,6 @@ feature 'Only user can delete his answer', "
 
       click_on 'Delete answer'
 
-      # хорошо, флеш работает. А теперь проверь, что на странице исчез текст удалённого ресурса
-      # тоже самое в вопросах
-      # исправлено
       expect(page).to have_content 'answer deleted successfully'
       expect(page).not_to have_content 'answer body 1'
     end
