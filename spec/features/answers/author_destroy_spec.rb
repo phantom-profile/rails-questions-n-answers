@@ -9,7 +9,7 @@ feature 'Only user can delete his answer', "
   given(:user_two) { create(:user) }
   given(:question) { user_one.questions.create(title: 'title 1', body: 'body 1') }
 
-  describe 'auth user' do
+  describe 'auth user', js: true do
     background do
       sign_in user_one
     end
@@ -22,8 +22,8 @@ feature 'Only user can delete his answer', "
       expect(page).to have_content 'Delete answer'
 
       click_on 'Delete answer'
+      page.driver.browser.switch_to.alert.accept
 
-      expect(page).to have_content 'answer deleted successfully'
       expect(page).not_to have_content 'answer body 1'
     end
 
@@ -36,7 +36,7 @@ feature 'Only user can delete his answer', "
     end
   end
 
-  scenario 'not auth user tries to delete answer' do
+  scenario 'not auth user tries to delete answer', js: true do
     user_one.answers.create(body: 'answer body 1', question: question)
     visit question_path(question)
 

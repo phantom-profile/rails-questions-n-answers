@@ -110,7 +110,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:delete_answer) { delete :destroy, params: { id: answer } }
+    let(:delete_answer) { delete :destroy, params: { id: answer }, format: :js }
     let!(:answer) { user.answers.create(body: 'body', question: question) }
 
     context 'when auth answer-owner user tries to delete' do
@@ -123,11 +123,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'deletes exact Answer from question answers' do
         expect { delete_answer }.to change(question.answers, :count).by(-1)
       end
-
-      it 'redirects to question' do
-        delete_answer
-        expect(response).to redirect_to question_path(answer.question)
-      end
     end
 
     context 'when another user tries to delete' do
@@ -138,11 +133,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not delete exact Answer from DB' do
         expect { delete_answer }.not_to change(user.answers, :count)
         expect { delete_answer }.not_to change(answer.question.answers, :count)
-      end
-
-      it 'redirects to question' do
-        delete_answer
-        expect(response).to redirect_to question_path(answer.question)
       end
     end
 

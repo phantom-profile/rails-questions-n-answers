@@ -20,10 +20,8 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     if current_user.author_of?(@answer)
       @answer.destroy
-      redirect_to @answer.question, notice: 'answer deleted successfully'
-    else
-      redirect_to @answer.question, alert: 'It is not your answer'
     end
+    @question = @answer.question
   end
 
   private
