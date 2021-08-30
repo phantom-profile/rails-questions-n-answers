@@ -1,4 +1,4 @@
-feature 'User can edit his own question', "
+feature 'User can edit his own answer', "
   In order to correct mistakes in answer
   As an author of answer
   I'd like to edit my answer

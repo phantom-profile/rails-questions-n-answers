@@ -10,6 +10,8 @@ import "channels"
 
 require("jquery")
 require("packs/show_edit_answer_form")
+require("packs/show_edit_question_form")
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

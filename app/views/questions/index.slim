@@ -1,2 +1,6 @@
-= render @questions
+.question-errors
+  = render 'shared/form_errors', resource: @question
+
+.questions
+  = render @questions
 p= link_to 'Ask question', new_question_path
