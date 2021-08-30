@@ -1,0 +1,6 @@
+$('.answer-errors').html(`<%= render 'shared/form_errors', resource: @answer %>`)
+
+<% if !@answer.errors.present? %>
+$('.answers').html(`<%= j render @question.answers %>`)
+
+<% end %>

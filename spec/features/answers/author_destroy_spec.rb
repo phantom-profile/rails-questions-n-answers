@@ -35,4 +35,12 @@ feature 'Only user can delete his answer', "
       expect(page).not_to have_content 'Delete answer'
     end
   end
+
+  scenario 'not auth user tries to delete answer' do
+    user_one.answers.create(body: 'answer body 1', question: question)
+    visit question_path(question)
+
+    expect(page).to have_content 'answer body 1'
+    expect(page).not_to have_content 'Delete answer'
+  end
 end

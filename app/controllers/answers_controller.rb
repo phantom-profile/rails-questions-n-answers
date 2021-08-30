@@ -5,12 +5,15 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.build(answer_params.merge({ user_id: current_user.id }))
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: 'Answer created successfully'
-    else
-      redirect_to question_path(@answer.question)
+    @answer = @question.answers.create(answer_params.merge({ user_id: current_user.id }))
+  end
+
+  def update
+    @answer = Answer.find(params[:id])
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
     end
+    @question = @answer.question
   end
 
   def destroy

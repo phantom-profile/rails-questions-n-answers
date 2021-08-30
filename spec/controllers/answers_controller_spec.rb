@@ -5,7 +5,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
 
   describe 'POST #create' do
-    let(:create_answer) { post :create, params: { question_id: question, answer: answer_params } }
+    let(:create_answer) { post :create, params: { question_id: question, answer: answer_params }, format: :js }
 
     context 'auth user' do
       before { login(user) }
@@ -19,7 +19,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'redirects to show' do
           create_answer
-          expect(response).to redirect_to assigns(:answer).question
+          expect(response).to render_template :create
         end
       end
 
@@ -32,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'not auth user' do
+    context 'with not auth user' do
       let(:answer_params) { attributes_for(:answer) }
 
       it 'does not allow to post answer' do
@@ -42,6 +42,69 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirects to login page' do
         create_answer
         expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let(:answer) { create(:answer, question: question, user: user) }
+    let(:update_answer) do
+      patch :update, params: { id: answer, answer: answer_params }, format: :js
+    end
+
+    context 'as auth user' do
+      before { login(user) }
+
+      context 'with valid attrs' do
+        let(:answer_params) { { body: 'edited answer', user: user } }
+
+        it 'saves changed Answer in DB' do
+          update_answer
+          answer.reload
+          expect(answer.body).to eq 'edited answer'
+        end
+
+        it 'renders update view' do
+          update_answer
+          expect(response).to render_template :update
+        end
+      end
+
+      context 'with invalid attrs' do
+        let(:answer_params) { attributes_for(:answer, :invalid, user: user) }
+
+        it 'does not save changed Answer in DB' do
+          expect { update_answer }.not_to change(answer, :body)
+        end
+
+        it 'renders update view' do
+          update_answer
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    context 'as not auth user' do
+      let(:answer_params) { { body: 'edited answer' } }
+
+      it 'does not allow to update answer' do
+        expect { update_answer }.not_to change(answer, :body)
+      end
+
+      it 'redirects to login page' do
+        update_answer
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when another user tries to patch' do
+      let(:alien_user) { create(:user) }
+      let(:answer_params) { { body: 'edited answer', user: alien_user } }
+
+      before { login(alien_user) }
+
+      it 'is not change exact Answer from DB' do
+        expect { update_answer }.not_to change(answer, :body)
       end
     end
   end
@@ -72,9 +135,9 @@ RSpec.describe AnswersController, type: :controller do
 
       before { login(alien_user) }
 
-      it 'is not delete exact Answer from DB' do
-        expect { delete_answer }.to change(user.answers, :count).by(0)
-        expect { delete_answer }.to change(answer.question.answers, :count).by(0)
+      it 'does not delete exact Answer from DB' do
+        expect { delete_answer }.not_to change(user.answers, :count)
+        expect { delete_answer }.not_to change(answer.question.answers, :count)
       end
 
       it 'redirects to question' do
@@ -84,8 +147,8 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when not auth user tries to delete' do
-      it 'is not delete exact Answer from DB' do
-        expect { delete_answer }.to change(Answer, :count).by(0)
+      it 'does not delete exact Answer from DB' do
+        expect { delete_answer }.not_to change(Answer, :count)
       end
 
       it 'redirects to login page' do

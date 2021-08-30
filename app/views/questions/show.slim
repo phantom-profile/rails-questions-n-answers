@@ -9,6 +9,9 @@ p
             method: :delete,
             data: {confirm: 'Are you sure?'}
 
+.answer-errors
+  = render 'shared/form_errors', resource: @answer
 = render 'answers/form'
 
-= render @question.answers
+.answers
+  = render @question.answers
