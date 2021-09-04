@@ -60,4 +60,3 @@ feature 'User can edit his own question', "
     end
   end
 end
-

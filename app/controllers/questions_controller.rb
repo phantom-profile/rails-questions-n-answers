@@ -26,9 +26,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find(params[:id])
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-    end
+    @question.update(question_params) if current_user.author_of?(@question)
     @questions = Question.all
   end
 
