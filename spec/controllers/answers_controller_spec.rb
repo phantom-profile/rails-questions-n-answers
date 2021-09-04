@@ -2,7 +2,7 @@
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user: user) }
 
   describe 'POST #create' do
     let(:create_answer) { post :create, params: { question_id: question, answer: answer_params }, format: :js }
@@ -144,6 +144,41 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirects to login page' do
         delete_answer
         expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'PATCH #choose_best' do
+    let(:answer) { create(:answer, question: question) }
+    let(:choose_best) { patch :choose_best, params: { id: answer }, format: :js }
+
+    context 'as user tries to choose best answer to his question' do
+      before { login(user) }
+
+      it 'changes question.best_answer in DB to exact answer' do
+        choose_best
+        question.reload
+        expect(question.best_answer).to eq answer
+      end
+    end
+
+    context 'as not auth user tries to choose best answer' do
+      it 'does not change question.best_answer in DB' do
+        choose_best
+        question.reload
+        expect(question.best_answer).to be_nil
+      end
+    end
+
+    context 'alien user tries to choose best answer' do
+      let(:alien_user) { create(:user) }
+
+      before { login(alien_user) }
+
+      it 'does not change question.best_answer in DB' do
+        choose_best
+        question.reload
+        expect(question.best_answer).to be_nil
       end
     end
   end
