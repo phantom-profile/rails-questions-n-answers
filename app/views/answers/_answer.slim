@@ -1,6 +1,13 @@
 p
   = answer.body
 
+- if current_user && current_user.author_of?(@question) && answer.id && (answer != @question.best_answer)
+  p= link_to 'Choose as best answer',
+             choose_best_answer_path(answer),
+             method: :patch,
+             remote: true,
+             class: 'choose-best-answer-link', data: { answer_id: answer.id}
+
 - if answer.id && current_user && current_user.author_of?(answer)
   p= link_to 'Delete answer',
           answer_path(answer),

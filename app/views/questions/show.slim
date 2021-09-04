@@ -13,5 +13,9 @@ p
   = render 'shared/form_errors', resource: @answer
 = render 'answers/form'
 
+.best-answer
+  - if @question.best_answer
+    = render 'answers/best', best: @question.best_answer
+
 .answers
-  = render @question.answers
+  = render @question.answers.without_best(@question.best_answer)
