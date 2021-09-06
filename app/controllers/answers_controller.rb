@@ -23,7 +23,7 @@ class AnswersController < ApplicationController
   def choose_best
     @answer = Answer.find(params[:id])
     @question = @answer.question
-    @question.update(best_answer: @answer) if current_user.author_of?(@question)
+    @question.update!(best_answer: @answer) if current_user.author_of?(@question)
     @answers = @question.answers
     @question = @answer.question
   end
