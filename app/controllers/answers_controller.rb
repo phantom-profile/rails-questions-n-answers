@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  before_action :answer, only: %i[update destroy choose_best]
   before_action :authenticate_user!
 
   def create
@@ -9,19 +10,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
     @answer.update(answer_params) if current_user.author_of?(@answer)
     @question = @answer.question
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
     @answer.destroy if current_user.author_of?(@answer)
     @question = @answer.question
   end
 
   def choose_best
-    @answer = Answer.find(params[:id])
     @question = @answer.question
     @question.update!(best_answer: @answer) if current_user.author_of?(@question)
     @answers = @question.answers
@@ -30,7 +28,11 @@ class AnswersController < ApplicationController
 
   private
 
+  def answer
+    @answer = Answer.with_attached_files.find(params[:id])
+  end
+
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end
 end

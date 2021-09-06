@@ -23,6 +23,15 @@ feature 'User can answer question', "
       expect(page).to have_content 'test answer'
     end
 
+    scenario 'answer with attached files' do
+      fill_in 'Body', with: 'answer body'
+      attach_file 'File', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+      click_on 'Answer now'
+
+      expect(page).to have_link 'README.md'
+      expect(page).to have_link 'Gemfile.lock'
+    end
+
     scenario 'answer with invalid data' do
       click_on 'Answer now'
 
