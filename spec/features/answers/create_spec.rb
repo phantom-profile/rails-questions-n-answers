@@ -8,7 +8,7 @@ feature 'User can answer question', "
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'auth user' do
+  describe 'auth user', js: true do
     background do
       sign_in user
 
@@ -20,7 +20,6 @@ feature 'User can answer question', "
 
       click_on 'Answer now'
 
-      expect(page).to have_content 'Answer created successfully'
       expect(page).to have_content 'test answer'
     end
 

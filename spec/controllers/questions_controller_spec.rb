@@ -2,7 +2,7 @@
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 5) }
@@ -95,7 +95,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:patch_question) { patch :update, params: question_params }
+    let(:patch_question) { patch :update, params: question_params, format: :js }
 
     context 'auth user' do
       before { login(user) }
@@ -138,10 +138,6 @@ RSpec.describe QuestionsController, type: :controller do
 
           expect(question.title).to eq title
           expect(question.body).to eq body
-        end
-
-        it 're-render edit' do
-          expect(response).to render_template :edit
         end
       end
     end

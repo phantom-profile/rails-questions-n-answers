@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.7'
 # auth functions
 gem 'devise'
 # templates
+gem 'jquery-rails'
 gem 'slim-rails'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

@@ -5,4 +5,7 @@ class Answer < ApplicationRecord
   belongs_to :user
 
   validates :body, :question, presence: true
+
+  default_scope -> { order(created_at: :desc) }
+  scope :without_best, ->(answer) { where.not(id: answer) }
 end

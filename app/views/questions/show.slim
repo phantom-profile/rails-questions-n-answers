@@ -9,6 +9,13 @@ p
             method: :delete,
             data: {confirm: 'Are you sure?'}
 
+.answer-errors
+  = render 'shared/form_errors', resource: @answer
 = render 'answers/form'
 
-= render @question.answers
+.best-answer
+  - if @question.best_answer
+    = render 'answers/best', best: @question.best_answer
+
+.answers
+  = render @question.answers.without_best(@question.best_answer)

@@ -5,22 +5,27 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.build(answer_params.merge({ user_id: current_user.id }))
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: 'Answer created successfully'
-    else
-      redirect_to question_path(@answer.question)
-    end
+    @answer = @question.answers.create(answer_params.merge({ user_id: current_user.id }))
+  end
+
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @question = @answer.question
   end
 
   def destroy
     @answer = Answer.find(params[:id])
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      redirect_to @answer.question, notice: 'answer deleted successfully'
-    else
-      redirect_to @answer.question, alert: 'It is not your answer'
-    end
+    @answer.destroy if current_user.author_of?(@answer)
+    @question = @answer.question
+  end
+
+  def choose_best
+    @answer = Answer.find(params[:id])
+    @question = @answer.question
+    @question.update!(best_answer: @answer) if current_user.author_of?(@question)
+    @answers = @question.answers
+    @question = @answer.question
   end
 
   private
