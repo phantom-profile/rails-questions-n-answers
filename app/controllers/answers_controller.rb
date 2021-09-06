@@ -22,8 +22,18 @@ class AnswersController < ApplicationController
   def choose_best
     @question = @answer.question
     @question.update!(best_answer: @answer) if current_user.author_of?(@question)
-    @answers = @question.answers
+    @answers = @question.answers.without_best(@question.best_answer)
     @question = @answer.question
+  end
+
+  def delete_attachment
+    @answer = Answer.find(params[:answer_id])
+    if current_user.author_of?(@answer)
+      @file = ActiveStorage::Blob.find_signed(params[:id])
+      @file.attachments.first.purge
+    end
+    @question = @answer.question
+    @answers = @question.answers.without_best(@question.best_answer)
   end
 
   private
