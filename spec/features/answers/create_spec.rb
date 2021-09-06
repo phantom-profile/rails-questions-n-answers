@@ -25,7 +25,7 @@ feature 'User can answer question', "
 
     scenario 'answer with attached files' do
       fill_in 'Body', with: 'answer body'
-      attach_file 'File', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+      attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
       click_on 'Answer now'
 
       expect(page).to have_link 'README.md'

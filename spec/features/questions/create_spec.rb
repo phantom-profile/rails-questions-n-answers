@@ -26,7 +26,7 @@ feature 'User can ask question', "
     scenario 'asks question with attached files' do
       fill_in 'Title', with: 'test question'
       fill_in 'Body', with: 'question body'
-      attach_file 'File', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+      attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
       click_on 'Ask'
 
       expect(page).to have_link 'README.md'
