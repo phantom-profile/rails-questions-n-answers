@@ -38,6 +38,21 @@ feature 'User can edit his own question', "
         expect(page).to have_content 'edited test question'
       end
 
+      scenario 'edit question with attached files' do
+        click_on 'Edit question'
+
+        within '.questions' do
+          fill_in 'Body', with: 'edited test question'
+          attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+          click_on 'Save'
+
+          expect(page).not_to have_selector 'textarea'
+        end
+
+        expect(page).to have_link 'README.md'
+        expect(page).to have_link 'Gemfile.lock'
+      end
+
       scenario 'edit question not correctly' do
         click_on 'Edit question'
 
