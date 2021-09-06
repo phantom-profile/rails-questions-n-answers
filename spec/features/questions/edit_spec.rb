@@ -43,7 +43,7 @@ feature 'User can edit his own question', "
 
         within '.questions' do
           fill_in 'Body', with: 'edited test question'
-          attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+          attach_file 'Files', ["#{Rails.root}/test_files/test_1.txt", "#{Rails.root}/Gtest_files/test_2.txt"]
           click_on 'Save'
 
           expect(page).not_to have_selector 'textarea'
