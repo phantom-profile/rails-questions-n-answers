@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Only user can delete files of his answer', "
   In order to remove file in answer by myself
   As a auth user

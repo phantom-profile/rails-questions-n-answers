@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Only user can delete files of his question', "
   In order to remove file in question by myself
   As a auth user
@@ -42,4 +44,3 @@ feature 'Only user can delete files of his question', "
     expect(page).not_to have_link 'Remove'
   end
 end
-
