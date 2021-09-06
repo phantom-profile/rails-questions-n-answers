@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'User can edit his own question', "
   In order to correct mistakes in question
   As an author of question
