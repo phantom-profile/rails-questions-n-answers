@@ -1,2 +1,2 @@
 $('.best-answer').html(`<%= j render @question.best_answer %>`)
-$('.answers').html(`<%= j render @question.answers.without_best(@question.best_answer) %>`)
+$('.answers').html(`<%= j render @answers %>`)

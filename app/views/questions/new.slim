@@ -1,15 +1,3 @@
 = form_with model: @question do |form|
   = render 'shared/form_errors', resource: @question
-  p
-    = form.label :title
-    = form.text_field :title
-
-  p
-    = form.label :body
-    = form.text_area :body
-
-  p
-    = form.label :files
-    = form.file_field :files, multiple: true
-
-  = form.submit 'Ask'
+  = render 'questions/form', form: form
