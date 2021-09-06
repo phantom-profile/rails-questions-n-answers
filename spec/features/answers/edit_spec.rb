@@ -40,6 +40,21 @@ feature 'User can edit his own answer', "
         expect(page).to have_content 'edited test answer'
       end
 
+      scenario 'edit answer with attached files' do
+        click_on 'Edit answer'
+
+        within '.answers' do
+          fill_in 'Body', with: 'edited test answer'
+          attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+          click_on 'Save'
+
+          expect(page).not_to have_selector 'textarea'
+        end
+
+        expect(page).to have_link 'README.md'
+        expect(page).to have_link 'Gemfile.lock'
+      end
+
       scenario 'edit answer not correctly' do
         click_on 'Edit answer'
 
