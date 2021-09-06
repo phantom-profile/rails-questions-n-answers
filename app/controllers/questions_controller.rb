@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :question, only: %i[show edit update destroy]
+  before_action :question, only: %i[show update destroy]
   before_action :authenticate_user!, except: %i[index show]
+
   def index
     @questions = Question.all
   end
@@ -25,14 +26,13 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question = Question.find(params[:id])
     @question.update(question_params) if current_user.author_of?(@question)
     @questions = Question.all
   end
 
   def destroy
-    if current_user.author_of?(question)
-      question.destroy
+    if current_user.author_of?(@question)
+      @question.destroy
       redirect_to questions_path, notice: 'question deleted successfully'
     else
       redirect_to questions_path, alert: 'it is not your question'
@@ -42,10 +42,10 @@ class QuestionsController < ApplicationController
   private
 
   def question
-    @question = Question.find(params[:id])
+    @question = Question.with_attached_files.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end

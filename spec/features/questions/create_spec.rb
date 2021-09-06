@@ -23,6 +23,16 @@ feature 'User can ask question', "
       expect(page).to have_content 'test question'
     end
 
+    scenario 'asks question with attached files' do
+      fill_in 'Title', with: 'test question'
+      fill_in 'Body', with: 'question body'
+      attach_file 'File', ["#{Rails.root}/README.md", "#{Rails.root}/Gemfile.lock"]
+      click_on 'Ask'
+
+      expect(page).to have_link 'README.md'
+      expect(page).to have_link 'Gemfile.lock'
+    end
+
     scenario 'asks question with errors' do
       click_on 'Ask'
 

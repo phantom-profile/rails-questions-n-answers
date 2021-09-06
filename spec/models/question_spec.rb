@@ -5,4 +5,8 @@ RSpec.describe Question, type: :model do
   it { is_expected.to belong_to(:best_answer).without_validating_presence }
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :body }
+
+  it 'has many attached files' do
+    expect(Question.new.files).to be_instance_of ActiveStorage::Attached::Many
+  end
 end
