@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
   def index
-    @questions = Question.all
+    @questions = Question.all.order(updated_at: :desc, created_at: :desc)
   end
 
   def show
@@ -37,6 +37,15 @@ class QuestionsController < ApplicationController
     else
       redirect_to questions_path, alert: 'it is not your question'
     end
+  end
+
+  def delete_attachment
+    @question = Question.find(params[:question_id])
+    if current_user.author_of?(@question)
+      @file = ActiveStorage::Blob.find_signed(params[:id])
+      @file.attachments.first.purge
+    end
+    @questions = Question.all.order(updated_at: :desc, created_at: :desc)
   end
 
   private
