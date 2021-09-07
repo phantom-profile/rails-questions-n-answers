@@ -16,12 +16,12 @@ feature 'User can edit his own question', "
     expect(page).not_to have_content 'Edit question'
   end
 
-  describe 'auth user' do
+  describe 'auth user', js: true do
     background do
       sign_in user_one
     end
 
-    context 'is owner of question', js: true do
+    context 'is owner of question' do
       background do
         visit questions_path
       end
@@ -31,7 +31,7 @@ feature 'User can edit his own question', "
 
         within '.questions' do
           fill_in 'Body', with: 'edited test question'
-          click_on 'Save'
+          click_on 'Ask'
 
           expect(page).not_to have_selector 'textarea'
         end
@@ -45,14 +45,16 @@ feature 'User can edit his own question', "
 
         within '.questions' do
           fill_in 'Body', with: 'edited test question'
-          attach_file 'Files', ["#{Rails.root}/test_files/test_1.txt", "#{Rails.root}/Gtest_files/test_2.txt"]
-          click_on 'Save'
+          attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/test_1.txt",
+                                "#{Rails.root}/spec/fixtures/files/test_2.txt"]
+
+          click_on 'Ask'
 
           expect(page).not_to have_selector 'textarea'
         end
 
-        expect(page).to have_link 'README.md'
-        expect(page).to have_link 'Gemfile.lock'
+        expect(page).to have_link 'test_1.txt'
+        expect(page).to have_link 'test_2.txt'
       end
 
       scenario 'edit question not correctly' do
@@ -60,7 +62,7 @@ feature 'User can edit his own question', "
 
         within '.questions' do
           fill_in 'Body', with: ''
-          click_on 'Save'
+          click_on 'Ask'
         end
 
         expect(page).to have_content "Body can't be blank"

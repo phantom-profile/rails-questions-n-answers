@@ -47,14 +47,15 @@ feature 'User can edit his own answer', "
 
         within '.answers' do
           fill_in 'Body', with: 'edited test answer'
-          attach_file 'Files', ["#{Rails.root}/test_files/test_1.txt", "#{Rails.root}/Gtest_files/test_2.txt"]
+          attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/test_1.txt",
+                                "#{Rails.root}/spec/fixtures/files/test_2.txt"]
           click_on 'Save'
 
           expect(page).not_to have_selector 'textarea'
         end
 
-        expect(page).to have_link 'README.md'
-        expect(page).to have_link 'Gemfile.lock'
+        expect(page).to have_link 'test_1.txt'
+        expect(page).to have_link 'test_2.txt'
       end
 
       scenario 'edit answer not correctly' do
