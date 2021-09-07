@@ -6,7 +6,7 @@ RSpec.describe AttachmentsController, type: :controller do
   let(:resource) { create(:question, files: files, user: user) }
 
   describe 'DELETE #destroy' do
-    let(:destroy) { delete :destroy, params: { id: resource.files.first.signed_id } }
+    let(:destroy) { delete :destroy, params: { id: resource.files.first } }
 
     context 'as user tries to delete file in his resource' do
       before { login(user) }
