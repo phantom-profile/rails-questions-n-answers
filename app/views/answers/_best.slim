@@ -4,3 +4,7 @@ p= best.body
 - if best.files.attached?
   - best.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
+    - if current_user && current_user.author_of?(best)
+      = link_to 'Remove', attachment_path(file.signed_id),
+              method: :delete,
+              data: { confirm: 'Are you sure?' }

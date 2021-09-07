@@ -13,4 +13,6 @@ Rails.application.routes.draw do
       delete :delete_attachment, on: :member
     end
   end
+
+  resources :attachments, only: %i[destroy]
 end

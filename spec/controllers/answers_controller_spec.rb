@@ -182,38 +182,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-
-  describe 'DELETE #delete_attached' do
-    let(:files) { [blob_for('test_1.txt').signed_id] }
-    let(:answer) { create(:answer, question: question, files: files, user: user) }
-    let(:delete_attachment) do
-      delete :delete_attachment,
-             params: { id: answer.files.first.signed_id, answer_id: answer.id },
-             format: :js
-    end
-
-    context 'as user tries to delete file in his answer' do
-      before { login(user) }
-
-      it 'deletes file from db' do
-        expect { delete_attachment }.to change(answer.files, :count).by(-1)
-      end
-    end
-
-    context 'as user tries to delete file not in his answer' do
-      let(:alien_user) { create(:user) }
-
-      before { login(alien_user) }
-
-      it 'does not delete file from db' do
-        expect { delete_attachment }.not_to change(answer.files, :count)
-      end
-    end
-
-    context 'as not auth user tries to delete file' do
-      it 'does not delete file from db' do
-        expect { delete_attachment }.not_to change(answer.files, :count)
-      end
-    end
-  end
 end
