@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Author of question can choose best answer', "
   In order to show which answer is most useful
   As a auth user

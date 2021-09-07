@@ -1,6 +1,16 @@
 p
   = answer.body
 
+- if answer.files.attached?
+  - answer.files.each do |file|
+    p
+      = link_to file.filename.to_s, url_for(file)
+      |
+      - if current_user && current_user.author_of?(answer)
+        = link_to 'Remove', attachment_path(file),
+                method: :delete,
+                data: { confirm: 'Are you sure?' }
+
 - if current_user && current_user.author_of?(@question) && answer.id && (answer != @question.best_answer)
   p= link_to 'Choose as best answer',
              choose_best_answer_path(answer),
@@ -22,5 +32,8 @@ p
     p
       = form.label :body
       = form.text_area :body
+    p
+      = form.label :files
+      = form.file_field :files, multiple: true
 
     = form.submit 'Save'

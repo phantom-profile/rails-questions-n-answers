@@ -41,17 +41,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    before do
-      login(user)
-      get :edit, params: { id: question }
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     let(:create_question) { post :create, params: question_params }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'User can edit his own answer', "
   In order to correct mistakes in answer
   As an author of answer
@@ -38,6 +40,22 @@ feature 'User can edit his own answer', "
 
         expect(page).not_to have_content 'answer body 1'
         expect(page).to have_content 'edited test answer'
+      end
+
+      scenario 'edit answer with attached files' do
+        click_on 'Edit answer'
+
+        within '.answers' do
+          fill_in 'Body', with: 'edited test answer'
+          attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/test_1.txt",
+                                "#{Rails.root}/spec/fixtures/files/test_2.txt"]
+          click_on 'Save'
+
+          expect(page).not_to have_selector 'textarea'
+        end
+
+        expect(page).to have_link 'test_1.txt'
+        expect(page).to have_link 'test_2.txt'
       end
 
       scenario 'edit answer not correctly' do

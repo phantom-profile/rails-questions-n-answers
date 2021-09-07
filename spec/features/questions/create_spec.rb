@@ -23,6 +23,17 @@ feature 'User can ask question', "
       expect(page).to have_content 'test question'
     end
 
+    scenario 'asks question with attached files' do
+      fill_in 'Title', with: 'test question'
+      fill_in 'Body', with: 'question body'
+      attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/test_1.txt",
+                            "#{Rails.root}/spec/fixtures/files/test_2.txt"]
+      click_on 'Ask'
+
+      expect(page).to have_link 'test_1.txt'
+      expect(page).to have_link 'test_2.txt'
+    end
+
     scenario 'asks question with errors' do
       click_on 'Ask'
 
