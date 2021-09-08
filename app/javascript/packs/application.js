@@ -9,6 +9,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
 require("jquery")
+require("@nathanvda/cocoon")
 require("packs/show_edit_answer_form")
 require("packs/show_edit_question_form")
 

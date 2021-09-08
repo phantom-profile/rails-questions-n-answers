@@ -15,6 +15,11 @@
             method: :delete,
             data: {confirm: 'Are you sure?'}
 
+.links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li= link_to link.name, link.url
 .answer-errors
   = render 'shared/form_errors', resource: @answer
 = render 'answers/form'
