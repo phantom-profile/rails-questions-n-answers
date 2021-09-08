@@ -1,10 +1,10 @@
-<% if user_signed_in? %>
-  <p class="nav user">
-    <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-  </p>
-<% else %>
-  <p class="nav user">
-    <%= link_to 'Login', new_user_session_path %>
-    <%= link_to 'Sign up', new_user_registration_path %>
-  </p>
-<% end %>
+<p class="nav">
+  <% if user_signed_in? %>
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+      <%= current_user.email %>
+  <% else %>
+      <%= link_to 'Login', new_user_session_path %>
+      <%= link_to 'Sign up', new_user_registration_path %>
+  <% end %>
+  <%= link_to 'to questions', questions_path %>
+</p>
