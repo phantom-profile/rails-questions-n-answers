@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :answers
   has_many :questions
-  has_many :rewards
+  has_many :rewards, dependent: :nullify
 
   def author_of?(resource)
     id == resource.user_id

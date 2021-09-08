@@ -1,6 +1,10 @@
 FactoryBot.define do
+  sequence :reward_title do |i|
+    "Reward #{i}"
+  end
+
   factory :reward do
-    title { "MyString" }
+    title { generate(:reward_title) }
     question { create(:question) }
     image do
       ActiveStorage::Blob.create_and_upload!(
