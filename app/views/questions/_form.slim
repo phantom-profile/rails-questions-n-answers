@@ -16,4 +16,15 @@ p
       = render 'link_fields', f: links
     .add-links
       = link_to_add_association 'add link', form, :links
+
+  p Reward
+  p
+    = form.fields_for :reward do |reward|
+      p
+        = reward.label :title, 'Reward title'
+        = reward.text_area :title
+
+      p
+        = reward.label :image
+        = reward.file_field :image
 = form.submit 'Ask'
