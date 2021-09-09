@@ -2,7 +2,6 @@
 
 class Github::ReadGist
 
-  #ACCESS_TOKEN = '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'
   ACCESS_TOKEN = Rails.application.credentials.dig(:github, :token)
   GIST_DOMAIN = 'gist.github.com'
 
