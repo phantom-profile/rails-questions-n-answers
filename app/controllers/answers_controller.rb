@@ -21,14 +21,10 @@ class AnswersController < ApplicationController
 
   def choose_best
     @question = @answer.question
-    if current_user.author_of?(@question)
-      @question.update!(best_answer: @answer)
-      if @question.reward.present?
-        @reward = @question.reward
-        @reward.update(user: nil)
-        current_user.rewards << @reward
-      end
-    end
+    return head :forbidden unless current_user.author_of? @question
+
+    @question.choose_best_answer(@answer, current_user)
+
     @answers = @question.answers.without_best(@question.best_answer)
     @question = @answer.question
   end

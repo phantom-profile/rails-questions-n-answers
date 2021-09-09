@@ -13,4 +13,14 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :links, reject_if: :all_blank
   accepts_nested_attributes_for :reward, reject_if: :all_blank
   validates :title, :body, presence: true
+
+  def choose_best_answer(answer, user)
+    update!(best_answer: answer)
+    return if reward.nil?
+
+    ActiveRecord::Base.transaction do
+      reward.update!(user: nil)
+      user.rewards << reward
+    end
+  end
 end
