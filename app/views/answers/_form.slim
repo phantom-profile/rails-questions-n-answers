@@ -7,10 +7,6 @@
     = form.label :files
     = form.file_field :files, multiple: true
 
-  p Links:
-  p
-    = form.fields_for :links do |links|
-      = render 'link_fields', f: links
-    .add-links-to-answers
-      = link_to_add_association 'add link', form, :links
+  = render 'shared/links_inline_form', form: form
+
   = form.submit 'Answer now'
