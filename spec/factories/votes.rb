@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :vote do
-    answer
+    votable { create(:answer) }
     user
     voted_for { true }
 
     trait :against do
-      answer
+      votable { create(:answer) }
       user
       voted_for { false }
     end
