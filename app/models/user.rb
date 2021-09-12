@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :questions
   has_many :rewards, dependent: :nullify
 
+  has_many :votes, dependent: :destroy
+  has_many :voted_answers, class_name: 'Answer', through: :votes, source: :answer
+
   def author_of?(resource)
     id == resource.user_id
   end

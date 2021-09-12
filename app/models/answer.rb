@@ -4,6 +4,9 @@ class Answer < ApplicationRecord
   has_many_attached :files
   has_many :links, as: :linkable, dependent: :destroy
 
+  has_many :votes, dependent: :destroy
+  has_many :voted_users, class_name: 'User', through: :votes, source: :user
+
   belongs_to :question
   belongs_to :user
 
