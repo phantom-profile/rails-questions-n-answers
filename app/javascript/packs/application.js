@@ -11,6 +11,7 @@ import "channels"
 require("jquery")
 require("@nathanvda/cocoon")
 require("packs/show_edit_answer_form")
+require("packs/render_voting_panel")
 require("packs/show_edit_question_form")
 
 Rails.start()
