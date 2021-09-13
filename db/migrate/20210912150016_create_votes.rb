@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateVotes < ActiveRecord::Migration[6.1]
   def change
     create_table :votes do |t|
@@ -5,7 +7,7 @@ class CreateVotes < ActiveRecord::Migration[6.1]
       t.belongs_to :votable, null: false, polymorphic: true
       t.boolean :voted_for, null: false
       t.timestamps
-      t.index [:user_id, :votable_id], unique: true
+      t.index %i[user_id votable_id], unique: true
     end
   end
 end

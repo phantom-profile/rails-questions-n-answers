@@ -22,14 +22,14 @@ gem 'jbuilder', '~> 2.7'
 # auth functions
 gem 'devise'
 # templates
+gem 'cocoon'
 gem 'jquery-rails'
 gem 'slim-rails'
-gem "cocoon"
 # models
-gem 'validate_url'
 gem 'active_storage_validations'
+gem 'validate_url'
 # side services
-gem "octokit", "~> 4.0"
+gem 'octokit', '~> 4.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -37,7 +37,7 @@ gem "octokit", "~> 4.0"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

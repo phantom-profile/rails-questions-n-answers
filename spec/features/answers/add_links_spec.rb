@@ -93,4 +93,3 @@ feature 'User can add link to answer', "
     end
   end
 end
-

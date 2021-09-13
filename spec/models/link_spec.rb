@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Link, type: :model do
-  it { should belong_to :linkable }
-  it { should validate_presence_of :name }
-  it { should validate_presence_of :url }
-  it { should validate_url_of(:url) }
+  it { is_expected.to belong_to :linkable }
+  it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_presence_of :url }
+  it { is_expected.to validate_url_of(:url) }
 end

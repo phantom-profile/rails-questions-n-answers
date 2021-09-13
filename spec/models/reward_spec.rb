@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Reward, type: :model do
-  it { should belong_to(:question) }
-  it { should validate_presence_of :title }
-  it { should validate_presence_of :image }
+  it { is_expected.to belong_to(:question) }
+  it { is_expected.to validate_presence_of :title }
+  it { is_expected.to validate_presence_of :image }
 
   it 'has one attached image' do
     expect(described_class.new.image).to be_instance_of ActiveStorage::Attached::One

@@ -89,4 +89,3 @@ feature 'User can add link to question', "
     end
   end
 end
-

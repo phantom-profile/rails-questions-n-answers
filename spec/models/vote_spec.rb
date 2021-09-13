@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Vote, type: :model do
   subject(:vote) { described_class.create(attributes_for(:vote)) }
 
-  it { should belong_to(:votable) }
-  it { should belong_to(:user) }
+  it { is_expected.to belong_to(:votable) }
+  it { is_expected.to belong_to(:user) }
 
-  it { should validate_presence_of :votable }
-  it { should validate_presence_of :user }
+  it { is_expected.to validate_presence_of :votable }
+  it { is_expected.to validate_presence_of :user }
   it { expect(vote).to validate_inclusion_of(:voted_for).in_array([true, false]) }
 
-  it 'should be sorted for or against' do
+  it 'is sorted for or against' do
     answer = create(:answer)
     answer.votes = create_list(:vote, 3) + create_list(:vote, 2, :against)
 
