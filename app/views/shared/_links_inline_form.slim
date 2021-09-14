@@ -1,0 +1,6 @@
+p Links:
+p
+  = form.fields_for :links do |links|
+    = render 'link_fields', f: links
+  .add-links
+    = link_to_add_association 'add link', form, :links

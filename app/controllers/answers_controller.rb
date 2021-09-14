@@ -21,7 +21,10 @@ class AnswersController < ApplicationController
 
   def choose_best
     @question = @answer.question
-    @question.update!(best_answer: @answer) if current_user.author_of?(@question)
+    return head :forbidden unless current_user.author_of? @question
+
+    @question.choose_best_answer(@answer, current_user)
+
     @answers = @question.answers.without_best(@question.best_answer)
     @question = @answer.question
   end
@@ -43,6 +46,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, links_attributes: [:id, :name, :url, :_destroy], files: [])
   end
 end

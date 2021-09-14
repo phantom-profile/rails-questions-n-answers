@@ -7,4 +7,6 @@
     = form.label :files
     = form.file_field :files, multiple: true
 
+  = render 'shared/links_inline_form', form: form
+
   = form.submit 'Answer now'

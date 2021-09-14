@@ -18,6 +18,8 @@ p
              remote: true,
              class: 'choose-best-answer-link', data: { answer_id: answer.id}
 
+= render 'shared/links', resource: answer
+
 - if answer.id && current_user && current_user.author_of?(answer)
   p= link_to 'Delete answer',
           answer_path(answer),
@@ -35,5 +37,12 @@ p
     p
       = form.label :files
       = form.file_field :files, multiple: true
+
+    p Links:
+    p
+      = form.fields_for :links do |links|
+        = render 'link_fields', f: links
+      .add-links-to-answers
+        = link_to_add_association 'add link', form, :links
 
     = form.submit 'Save'

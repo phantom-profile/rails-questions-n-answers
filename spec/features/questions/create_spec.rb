@@ -34,6 +34,17 @@ feature 'User can ask question', "
       expect(page).to have_link 'test_2.txt'
     end
 
+    scenario 'asks question with attached reward' do
+      fill_in 'Title', with: 'test question'
+      fill_in 'Body', with: 'question body'
+      fill_in 'Reward title', with: 'test reward'
+      attach_file 'Image', "#{Rails.root}/spec/fixtures/files/image.jpeg"
+      click_on 'Ask'
+
+      expect(page).to have_content 'There is a reward for best question'
+      expect(page).to have_content 'test reward'
+    end
+
     scenario 'asks question with errors' do
       click_on 'Ask'
 

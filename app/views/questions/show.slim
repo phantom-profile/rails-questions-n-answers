@@ -15,10 +15,17 @@
             method: :delete,
             data: {confirm: 'Are you sure?'}
 
+.links
+  = render 'shared/links', resource: @question
+
 .answer-errors
   = render 'shared/form_errors', resource: @answer
 = render 'answers/form'
 
+- if @question.reward.present?
+  .reward
+    p There is a reward for best question
+    p= @question.reward.title
 .best-answer
   - if @question.best_answer
     = render 'answers/best', best: @question.best_answer

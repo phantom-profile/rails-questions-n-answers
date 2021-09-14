@@ -10,4 +10,16 @@ p
   = form.label :files
   = form.file_field :files, multiple: true
 
+  = render 'shared/links_inline_form', form: form
+
+  p Reward
+  p
+    = form.fields_for :reward do |reward|
+      p
+        = reward.label :title, 'Reward title'
+        = reward.text_area :title
+
+      p
+        = reward.label :image
+        = reward.file_field :image
 = form.submit 'Ask'
