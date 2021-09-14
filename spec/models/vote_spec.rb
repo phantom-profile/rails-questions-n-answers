@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Vote, type: :model do
-  subject(:vote) { described_class.create(attributes_for(:vote)) }
+  subject(:vote) { create(:vote) }
 
   it { is_expected.to belong_to(:votable) }
   it { is_expected.to belong_to(:user) }
@@ -18,5 +18,13 @@ RSpec.describe Vote, type: :model do
 
     expect(answer.votes.for(answer).count).to eq 3
     expect(answer.votes.against(answer).count).to eq 2
+  end
+
+  it 'validates that user is not author of resource' do
+    user = create(:user)
+    resource = create(:question, user: user)
+    vote = described_class.new(user: user, votable: resource, voted_for: true)
+
+    expect(vote).to be_invalid
   end
 end

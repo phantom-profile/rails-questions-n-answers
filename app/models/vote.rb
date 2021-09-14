@@ -7,7 +7,14 @@ class Vote < ApplicationRecord
   validates_presence_of :votable, :user
   validates_inclusion_of :voted_for, in: [true, false]
   validates :user, uniqueness: { scope: :votable }
+  validate :user_is_not_author_of_votable, on: :create
 
   scope :for, ->(votable) { where(votable: votable, voted_for: true) }
   scope :against, ->(votable) { where(votable: votable, voted_for: false) }
+
+  def user_is_not_author_of_votable
+    if user.author_of?(votable)
+      errors.add(:user, 'cannot vote your own resource')
+    end
+  end
 end
