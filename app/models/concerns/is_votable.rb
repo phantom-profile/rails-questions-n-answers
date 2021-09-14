@@ -14,4 +14,8 @@ module IsVotable
   def vote_of(user)
     votes.find_by(user: user)
   end
+
+  def rating
+    votes.for(self).count - votes.against(self).count
+  end
 end

@@ -5,21 +5,12 @@ class VotesController < ApplicationController
 
   def create
     @resource = resource_class.find(params[:resource_id])
-    @vote = Vote.find_or_initialize_by({ votable: @resource, user: current_user, voted_for: params[:vote_for] })
+    @vote = @resource.votes.build({ user: current_user, voted_for: params[:vote_for] })
 
-    if @vote.persisted? || current_user.author_of?(@resource)
-      redirect_back(fallback_location: root_path)
-      return
-    end
-
-    respond_to do |format|
-      if @vote.save
-        rating = @resource.votes.for(@resource).count - @resource.votes.against(@resource).count
-        format.json do
-          render json: { resource_id: @resource.id,
-                         rating: rating }
-        end
-      end
+    if @vote.save
+      render json: { resource_id: @resource.id, rating: @resource.rating }
+    else
+      render json: { errors: @vote.errors.full_messages, rating: @resource.rating }
     end
   end
 
@@ -27,16 +18,10 @@ class VotesController < ApplicationController
     @vote = Vote.find(params[:id])
     @resource = @vote.votable
 
-    return unless current_user.author_of?(@vote)
+    return head :forbidden unless current_user.author_of?(@vote)
 
     @vote.destroy
-    respond_to do |format|
-      rating = @resource.votes.for(@resource).count - @resource.votes.against(@resource).count
-      format.json do
-        render json: { resource_id: @resource.id,
-                       rating: rating }
-      end
-    end
+    render json: { resource_id: @resource.id, rating: @resource.rating }
   end
 
   private
