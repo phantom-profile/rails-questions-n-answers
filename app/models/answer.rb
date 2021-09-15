@@ -5,14 +5,14 @@ class Answer < ApplicationRecord
 
   include IsVotable
 
-  has_many_attached :files
-  has_many :links, as: :linkable, dependent: :destroy
-
   belongs_to :question
   belongs_to :user
 
-  accepts_nested_attributes_for :links, reject_if: :all_blank
+  has_many_attached :files
+  has_many :links, as: :linkable, dependent: :destroy
+
   validates :body, :question, presence: true
 
+  accepts_nested_attributes_for :links, reject_if: :all_blan
   scope :without_best, ->(answer) { where.not(id: answer) }
 end
