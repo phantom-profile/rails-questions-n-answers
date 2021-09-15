@@ -18,10 +18,12 @@ class VotesController < ApplicationController
     @vote = Vote.find(params[:id])
     @resource = @vote.votable
 
-    return head :forbidden unless current_user.author_of?(@vote)
-
-    @vote.destroy
-    render json: { resource_id: @resource.id, rating: @resource.rating }
+    if current_user.author_of?(@vote)
+      @vote.destroy
+      render json: { resource_id: @resource.id, rating: @resource.rating }
+    else
+      head :forbidden
+    end
   end
 
   private
