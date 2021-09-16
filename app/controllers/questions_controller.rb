@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   before_action :question, only: %i[show update destroy]
   before_action :authenticate_user!, except: %i[index show]
 
+  after_action :send_to_channel, only: %i[create]
+
   def index
     @questions = Question.all.order(updated_at: :desc, created_at: :desc)
   end
@@ -46,6 +48,18 @@ class QuestionsController < ApplicationController
 
   def question
     @question = Question.with_attached_files.find(params[:id])
+  end
+
+  def send_to_channel
+    return unless @question.persisted?
+
+    QuestionsController.renderer.instance_variable_set(:@env, { 'warden' => warden })
+    ActionCable.server.broadcast('questions_channel',
+                                 QuestionsController.render(
+                                   partial: 'questions/question',
+                                   locals: { question: @question,
+                                             current_user: nil }
+                                 ))
   end
 
   def question_params

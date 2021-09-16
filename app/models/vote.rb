@@ -13,8 +13,6 @@ class Vote < ApplicationRecord
   scope :against, ->(votable) { where(votable: votable, voted_for: false) }
 
   def user_is_not_author_of_votable
-    if user.author_of?(votable)
-      errors.add(:user, 'cannot vote your own resource')
-    end
+    errors.add(:user, 'cannot vote your own resource') if user.author_of?(votable)
   end
 end
