@@ -1,0 +1,28 @@
+div class=["voting-panel", resource.id]
+  - if resource.id
+    .vote-statistic
+      p= "#{resource.class} rating"
+      p= resource.votes.for(resource).count - resource.votes.against(resource).count
+
+  - if resource.id && current_user && !current_user.author_of?(resource)
+
+    -if !resource.voted_by?(current_user)
+      div class=["voting"]
+        p= link_to 'vote for',
+                votes_path(resource: resource.class, resource_id: resource.id, vote_for: true),
+                method: :post,
+                data: { type: :json},
+                remote: true
+        p= link_to 'vote against',
+                votes_path(resource: resource.class, resource_id: resource.id, vote_for: false),
+                method: :post,
+                data: { type: :json },
+                remote: true
+    -else
+      .div class=["unvoting"]
+        p= link_to 'remove vote',
+                vote_path(resource.vote_of(current_user), resource_id: resource.id),
+                method: :delete,
+                data: { type: :json},
+                remote: true,
+                class: 'remove-vote'

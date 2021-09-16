@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :reward_title do |i|
     "Reward #{i}"
@@ -15,7 +17,7 @@ FactoryBot.define do
     end
 
     trait :invalid do
-      title { "MyString" }
+      title { 'MyString' }
       question
       image do
         ActiveStorage::Blob.create_and_upload!(

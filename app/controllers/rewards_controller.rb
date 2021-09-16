@@ -7,4 +7,3 @@ class RewardsController < ApplicationController
     @rewards = current_user.rewards
   end
 end
-

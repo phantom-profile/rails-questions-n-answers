@@ -45,4 +45,3 @@ feature 'Only user can delete links of his answer', "
     expect(page).not_to have_link 'Remove'
   end
 end
-

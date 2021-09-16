@@ -19,4 +19,3 @@ feature 'User can look at question list', "
     expect(page).to have_content rewards[4].question.title
   end
 end
-

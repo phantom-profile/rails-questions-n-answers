@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe LinksController, type: :controller do
   let(:user) { create(:user) }
   let(:resource) { create(:question, user: user) }
