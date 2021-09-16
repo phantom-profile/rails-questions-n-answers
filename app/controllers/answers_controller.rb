@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   before_action :answer, only: %i[update destroy choose_best]
   before_action :authenticate_user!
 
+  after_action :send_to_channel, only: %i[create]
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params.merge({ user_id: current_user.id }))
@@ -43,6 +45,20 @@ class AnswersController < ApplicationController
 
   def answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def send_to_channel
+    return unless @answer.persisted?
+
+    ActionCable.server.broadcast('answers_channel', 'HELLO')
+    Rails.logger.info(@answer)
+    AnswersController.renderer.instance_variable_set(:@env, { 'warden' => warden })
+    ActionCable.server.broadcast('answers_channel',
+                                 AnswersController.render(
+                                   partial: 'answers/answer',
+                                   locals: { answer: @answer,
+                                             current_user: nil }
+                                 ))
   end
 
   def answer_params

@@ -41,6 +41,30 @@ feature 'User can answer question', "
     end
   end
 
+  context 'multiple sessions', js: true do
+    scenario 'user create question and everybody sees it' do
+      Capybara.using_session('user1') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user2') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user1') do
+        fill_in 'Body', with: 'test answer'
+        click_on 'Answer now'
+
+        expect(page).to have_content 'test answer'
+      end
+
+      Capybara.using_session('user1') do
+        expect(page).to have_content 'test answer'
+      end
+    end
+  end
+
   scenario 'not auth user tries to answer' do
     visit question_path(question)
     click_on 'Answer now'
