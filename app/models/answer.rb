@@ -9,10 +9,11 @@ class Answer < ApplicationRecord
   belongs_to :user
 
   has_many_attached :files
+  has_many :comments, as: :commentable, dependent: :destroy
   has_many :links, as: :linkable, dependent: :destroy
 
   validates :body, :question, presence: true
 
-  accepts_nested_attributes_for :links, reject_if: :all_blan
+  accepts_nested_attributes_for :links, reject_if: :all_blank
   scope :without_best, ->(answer) { where.not(id: answer) }
 end
