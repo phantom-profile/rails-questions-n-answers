@@ -52,6 +52,31 @@ feature 'User can ask question', "
     end
   end
 
+  context 'multiple sessions', js: true do
+    scenario 'user create question and everybody sees it' do
+      Capybara.using_session('user1') do
+        sign_in(user)
+        visit new_question_path
+      end
+
+      Capybara.using_session('user2') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user1') do
+        fill_in 'Title', with: 'test question'
+        fill_in 'Body', with: 'question body'
+        click_on 'Ask'
+
+        expect(page).to have_content 'test question'
+      end
+
+      Capybara.using_session('user2') do
+        expect(page).to have_content 'test question'
+      end
+    end
+  end
+
   scenario 'not auth user tries to ask question' do
     visit questions_path
     click_on 'Ask question'

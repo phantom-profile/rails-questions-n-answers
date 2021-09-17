@@ -1,0 +1,20 @@
+.comments id="#{resource.id}"
+  p= "Comments for this #{resource.class}"
+  .comments-errors
+
+  - if current_user
+    p= form_with model: resource.comments.new,
+            local: false,
+            html: { id: "form-for-comment-resource-#{resource.id}" } do |form|
+
+      = form.hidden_field 'resource', value: resource.class
+      = form.hidden_field 'resource_id', value: resource.id
+
+      p
+        = form.label :body, 'Comment body'
+        = form.text_area :body
+
+      = form.submit 'Comment'
+
+  - if resource.comments.any?
+    = render resource.comments

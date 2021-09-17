@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   resources :links, only: %i[destroy]
   resources :rewards, only: %i[index]
   resources :votes, only: %i[create destroy]
+  resources :comments, only: %i[create new]
 end
