@@ -71,7 +71,7 @@ feature 'User can ask question', "
         expect(page).to have_content 'test question'
       end
 
-      Capybara.using_session('user1') do
+      Capybara.using_session('user2') do
         expect(page).to have_content 'test question'
       end
     end

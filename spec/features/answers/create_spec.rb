@@ -59,7 +59,7 @@ feature 'User can answer question', "
         expect(page).to have_content 'test answer'
       end
 
-      Capybara.using_session('user1') do
+      Capybara.using_session('user2') do
         expect(page).to have_content 'test answer'
       end
     end

@@ -48,7 +48,7 @@ feature 'User can comment resource', "
         expect(page).to have_content 'test comment'
       end
 
-      Capybara.using_session('user1') do
+      Capybara.using_session('user2') do
         expect(page).to have_content 'test comment'
       end
     end
