@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
 
   after_action :send_to_channel, only: %i[create]
 
-  authorize_resource
+  authorize_resource except: [:choose_best]
 
   def create
     @question = Question.find(params[:question_id])
@@ -27,7 +27,6 @@ class AnswersController < ApplicationController
     @question = @answer.question
 
     authorize! :update, @question
-
     @question.choose_best_answer(@answer, current_user)
 
     @answers = @question.answers.without_best(@question.best_answer)
@@ -53,8 +52,6 @@ class AnswersController < ApplicationController
   def send_to_channel
     return unless @answer.persisted?
 
-    ActionCable.server.broadcast('answers_channel', 'HELLO')
-    Rails.logger.info(@answer)
     AnswersController.renderer.instance_variable_set(:@env, { 'warden' => warden })
     ActionCable.server.broadcast('answers_channel',
                                  AnswersController.render(
