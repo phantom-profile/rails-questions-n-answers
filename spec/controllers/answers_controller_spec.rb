@@ -39,9 +39,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { create_answer }.not_to change(question.answers, :count)
       end
 
-      it 'redirects to login page' do
+      it 'unpermit action' do
         create_answer
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -91,9 +91,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { update_answer }.not_to change(answer, :body)
       end
 
-      it 'redirects to login page' do
+      it 'unpermit action' do
         update_answer
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
 
@@ -141,9 +141,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete_answer }.not_to change(Answer, :count)
       end
 
-      it 'redirects to login page' do
+      it 'unpermit action' do
         delete_answer
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end

@@ -60,4 +60,3 @@ feature 'User can comment resource', "
     expect(page).not_to have_content 'Comment body'
   end
 end
-

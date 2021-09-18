@@ -20,6 +20,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # auth functions
+gem 'cancancan'
 gem 'devise'
 # templates
 gem 'cocoon'
