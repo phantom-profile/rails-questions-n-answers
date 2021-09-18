@@ -2,9 +2,9 @@ div class=["voting-panel", resource.id]
   - if resource.id
     .vote-statistic
       p= "#{resource.class} rating"
-      p= resource.votes.for(resource).count - resource.votes.against(resource).count
+      p= resource.rating
 
-  - if resource.id && current_user && !current_user.author_of?(resource)
+  - if resource.id && !can?(:update, resource) && can?(:create, Vote)
 
     -if !resource.voted_by?(current_user)
       div class=["voting"]

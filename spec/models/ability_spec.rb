@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Ability, type: :model do
-  subject(:ability) { Ability.new(user) }
+  subject(:ability) { described_class.new(user) }
 
   describe 'unauth guest' do
     let(:user) { nil }
@@ -24,9 +24,11 @@ RSpec.describe Ability, type: :model do
 
     let(:question) { create(:question, user: user) }
     let(:answer) { create(:answer, user: user) }
+    let(:vote) { create(:vote, user: user) }
 
     let(:alien_question) { create(:question, user: create(:user)) }
     let(:alien_answer) { create(:answer, user: create(:user)) }
+    let(:alien_vote) { create(:vote, user: create(:user)) }
 
     it { is_expected.not_to be_able_to :manage, :all }
     it { is_expected.to be_able_to :read, :all }
@@ -40,11 +42,13 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to be_able_to :destroy, question }
     it { is_expected.to be_able_to :destroy, answer }
+    it { is_expected.to be_able_to :destroy, vote }
 
     it { is_expected.not_to be_able_to :update, alien_question }
     it { is_expected.not_to be_able_to :update, alien_answer }
 
     it { is_expected.not_to be_able_to :destroy, alien_question }
     it { is_expected.not_to be_able_to :destroy, alien_answer }
+    it { is_expected.not_to be_able_to :destroy, alien_vote }
   end
 end
