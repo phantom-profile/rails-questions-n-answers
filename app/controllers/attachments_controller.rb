@@ -6,7 +6,10 @@ class AttachmentsController < ApplicationController
   def destroy
     @file = ActiveStorage::Attachment.find(params[:id])
     @resource = @file.record
-    @file.purge if current_user.author_of?(@resource)
+
+    authorize! :update, @resource
+
+    @file.purge
     redirect_back fallback_location: root_path
   end
 end

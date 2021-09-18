@@ -5,7 +5,10 @@ class LinksController < ApplicationController
 
   def destroy
     @link = Link.find(params[:id])
-    @link.destroy if current_user.author_of?(@link.linkable)
+
+    authorize!(:update, @link.linkable)
+
+    @link.destroy
     redirect_back fallback_location: root_path
   end
 end
