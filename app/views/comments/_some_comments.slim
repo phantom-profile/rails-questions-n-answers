@@ -2,7 +2,7 @@
   p= "Comments for this #{resource.class}"
   .comments-errors
 
-  - if current_user
+  - if can?(:create, Comment)
     p= form_with model: resource.comments.new,
             local: false,
             html: { id: "form-for-comment-resource-#{resource.id}" } do |form|
