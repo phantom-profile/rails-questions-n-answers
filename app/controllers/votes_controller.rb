@@ -3,6 +3,8 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
 
+  authorize_resource
+
   def create
     @resource = resource_class.find(params[:resource_id])
     @vote = @resource.votes.build({ user: current_user, voted_for: params[:vote_for] })
@@ -18,12 +20,10 @@ class VotesController < ApplicationController
     @vote = Vote.find(params[:id])
     @resource = @vote.votable
 
-    if current_user.author_of?(@vote)
-      @vote.destroy
-      render json: { resource_id: @resource.id, rating: @resource.rating }
-    else
-      head :forbidden
-    end
+    authorize!(:destroy, @vote)
+
+    @vote.destroy
+    render json: { resource_id: @resource.id, rating: @resource.rating }
   end
 
   private

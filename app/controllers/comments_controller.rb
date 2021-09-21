@@ -4,6 +4,8 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   after_action :send_to_channel, only: %i[create]
 
+  authorize_resource
+
   def create
     @resource = resource_class.find(vote_params[:resource_id])
     @comment = @resource.comments.create({ user: current_user, body: vote_params[:body] })

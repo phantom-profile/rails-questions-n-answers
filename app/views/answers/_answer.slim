@@ -2,17 +2,9 @@ div id="answer-#{answer.id}"
   p
     = answer.body
 
-  - if answer.files.attached?
-    - answer.files.each do |file|
-      p
-        = link_to file.filename.to_s, url_for(file)
-        |
-        - if current_user && current_user.author_of?(answer)
-          = link_to 'Remove', attachment_path(file),
-                  method: :delete,
-                  data: { confirm: 'Are you sure?' }
+  = render 'shared/files', resource: answer
 
-  - if current_user && current_user.author_of?(@question) && answer.id && (answer != @question.best_answer)
+  - if can?(:update, @question) && (answer != @question.best_answer)
     p= link_to 'Choose as best answer',
                choose_best_answer_path(answer),
                method: :patch,
@@ -23,7 +15,7 @@ div id="answer-#{answer.id}"
 
   = render 'shared/votable', resource: answer
 
-  - if answer.id && current_user && current_user.author_of?(answer)
+  - if answer.id && can?(:update, answer)
     p= link_to 'Delete answer',
             answer_path(answer),
             method: :delete,
@@ -49,11 +41,5 @@ div id="answer-#{answer.id}"
           = link_to_add_association 'add link', form, :links
 
       = form.submit 'Save'
-
-  -if answer.id && answer.comments.any?
-    - answer.files.each do |file|
-      p
-        = link_to file.filename.to_s, url_for(file)
-        |
 
   = render 'comments/some_comments', resource: answer

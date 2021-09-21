@@ -6,6 +6,8 @@ class QuestionsController < ApplicationController
 
   after_action :send_to_channel, only: %i[create]
 
+  authorize_resource
+
   def index
     @questions = Question.all.order(updated_at: :desc, created_at: :desc)
   end
@@ -31,17 +33,13 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params) if current_user.author_of?(@question)
+    @question.update(question_params)
     @questions = Question.all
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'question deleted successfully'
-    else
-      redirect_to questions_path, status: :forbidden, alert: 'it is not your question'
-    end
+    @question.destroy
+    redirect_to questions_path, notice: 'question deleted successfully'
   end
 
   private

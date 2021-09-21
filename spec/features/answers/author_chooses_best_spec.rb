@@ -37,10 +37,12 @@ feature 'Author of question can choose best answer', "
 
       expect(page).to have_content 'Choose as best answer'
 
+      within id: "answer-#{best_answer.id}" do
+        click_on('Choose as best answer')
+      end
       click_on('Choose as best answer', match: :first)
       # change of answer
       click_on('Choose as best answer', match: :first)
-
       within '.best-answer' do
         expect(page).to have_content 'wrong answer body'
         expect(page).not_to have_content 'Choose as best answer'
