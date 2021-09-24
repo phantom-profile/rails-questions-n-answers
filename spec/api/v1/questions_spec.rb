@@ -123,8 +123,10 @@ describe 'Questions API' do
     end
 
     describe 'when auth user' do
-      let(:patch_request) { patch api_path, params:
-        { access_token: token.token, id: question.id, question: question_params } }
+      let(:patch_request) do
+        patch api_path, params:
+        { access_token: token.token, id: question.id, question: question_params }
+      end
 
       context 'valid attributes' do
         let(:question_params) { { body: 'edited body' } }

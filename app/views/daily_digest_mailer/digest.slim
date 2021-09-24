@@ -1,0 +1,9 @@
+h2= "Hello, #{@user.email}, there are fresh questions on site"
+p
+  ========================
+- @questions.each do |q|
+  h3= q.title
+  p= q.body
+  p= "Created at #{q.created_at}"
+  p
+    =====================

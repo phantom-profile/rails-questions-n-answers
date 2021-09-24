@@ -11,6 +11,7 @@ class AnswersController < ApplicationController
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params.merge({ user_id: current_user.id }))
+    FreshAnswerJob.perform_later(@question.subscribers, @answer) if @answer.valid?
   end
 
   def update

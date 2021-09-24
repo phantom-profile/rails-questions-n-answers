@@ -1,0 +1,9 @@
+- if resource.id && can?(:create, Subscription)
+  - if resource.subscribed_by?(current_user)
+    p= link_to 'stop receiving update news',
+            subscription_path(resource.subscription_of(current_user), resource_id: resource.id),
+            method: :delete
+  - else
+    p= link_to 'receive update news',
+            subscriptions_path(resource: resource.class, resource_id: resource.id),
+            method: :post
