@@ -2,3 +2,6 @@ require: rubocop-rspec
 
 RSpec/Capybara/FeatureMethods:
   Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

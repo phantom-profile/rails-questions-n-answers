@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.7'
 # auth functions
 gem 'cancancan'
 gem 'devise'
+gem 'doorkeeper'
 # templates
 gem 'cocoon'
 gem 'jquery-rails'
@@ -29,6 +30,9 @@ gem 'slim-rails'
 # models
 gem 'active_storage_validations'
 gem 'validate_url'
+# API
+gem 'active_model_serializers'
+gem 'oj'
 # side services
 gem 'octokit', '~> 4.0'
 # Use Redis adapter to run Action Cable in production

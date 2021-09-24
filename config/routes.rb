@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
@@ -19,4 +20,16 @@ Rails.application.routes.draw do
   resources :rewards, only: %i[index]
   resources :votes, only: %i[create destroy]
   resources :comments, only: %i[create new]
+
+  namespace 'api' do
+    namespace 'v1' do
+      resources :profiles, only: [:index] do
+        get :me, on: :collection
+      end
+
+      resources :questions, only: %i[index show create update destroy] do
+        resources :answers, shallow: true, only: %i[index show create update destroy]
+      end
+    end
+  end
 end
