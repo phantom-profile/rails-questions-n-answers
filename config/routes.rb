@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :rewards, only: %i[index]
   resources :votes, only: %i[create destroy]
   resources :comments, only: %i[create new]
+  resources :subscriptions, only: %i[create destroy]
 
   namespace 'api' do
     namespace 'v1' do
