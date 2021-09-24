@@ -27,4 +27,3 @@ feature 'User can subscribe', "
     expect(page).not_to have_content 'receive update news'
   end
 end
-

@@ -26,7 +26,7 @@ class SubscriptionsController < ApplicationController
 
   private
 
-    def resource_class
-      params[:resource].classify.constantize
-    end
+  def resource_class
+    params[:resource].classify.constantize
+  end
 end

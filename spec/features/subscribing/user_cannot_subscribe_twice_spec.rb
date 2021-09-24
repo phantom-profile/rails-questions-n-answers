@@ -18,4 +18,3 @@ feature 'User cannot subscribe twice', "
     expect(page).not_to have_content 'receive update news'
   end
 end
-

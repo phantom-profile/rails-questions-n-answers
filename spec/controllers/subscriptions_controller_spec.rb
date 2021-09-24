@@ -65,4 +65,3 @@ RSpec.describe SubscriptionsController, type: :controller do
     end
   end
 end
-

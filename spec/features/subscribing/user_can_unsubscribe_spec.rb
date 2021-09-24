@@ -14,7 +14,7 @@ feature 'User can unsubscribe', "
     sign_in user
     visit questions_path
 
-    expect(page).to have_content "stop receiving update news"
+    expect(page).to have_content 'stop receiving update news'
 
     click_on 'stop receiving update news'
 

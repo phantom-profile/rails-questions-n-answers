@@ -11,7 +11,7 @@ describe 'API answers' do
   let!(:answer) { answers.first }
   let(:answer_responce) { json['answers'].last }
 
-  describe "GET questions/<int:id>/answers" do
+  describe 'GET questions/<int:id>/answers' do
     let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
     let(:method) { :get }
 
@@ -41,7 +41,9 @@ describe 'API answers' do
     end
 
     describe 'when auth user' do
-      let(:post_request) { post api_path, params: { access_token: token.token, question_id: question.id, answer: answer_params } }
+      let(:post_request) do
+        post api_path, params: { access_token: token.token, question_id: question.id, answer: answer_params }
+      end
 
       context 'valid attributes' do
         let(:answer_params) { attributes_for(:answer, question: question) }
@@ -80,8 +82,10 @@ describe 'API answers' do
     end
 
     describe 'when auth user' do
-      let(:patch_request) { patch api_path, params:
-        { access_token: token.token, id: answer.id, answer: answer_params } }
+      let(:patch_request) do
+        patch api_path, params:
+        { access_token: token.token, id: answer.id, answer: answer_params }
+      end
 
       context 'valid attributes' do
         let(:answer_params) { { body: 'edited body' } }
