@@ -9,6 +9,6 @@ RSpec.describe DailyDigestJob, type: :job do
 
   it 'calls Service::DailyDigest#send_digest' do
     expect(service).to receive(:send_digest)
-    DailyDigestJob.perform_now
+    described_class.perform_now
   end
 end
